@@ -1,3 +1,5 @@
+import {AcordionList} from './Acordion/Acordion'
+
 export const App = () => {
   return (
     <div
@@ -7,6 +9,7 @@ export const App = () => {
         color: '#010101',
       }}
     >
+      <AcordionList />
     </div>
   );
 };
