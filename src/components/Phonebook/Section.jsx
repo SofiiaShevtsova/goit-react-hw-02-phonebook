@@ -3,7 +3,6 @@ const { SectionContainer, SectionTitle } = StyleList;
 
 const Section = props => {
   const { title, children } = props;
-  console.log(children);
   return (
     <SectionContainer>
       <SectionTitle>{title}</SectionTitle>

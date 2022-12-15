@@ -1,18 +1,24 @@
-import { Formik, Field } from 'formik';
+import { Formik, Field, Form } from 'formik';
 
 const FilterContact = props => {
-    const{findContactsByName, filter} = props
+  const { findContactsByName, filters } = props;
   return (
-    <Formik initialValues={{
-          filter: `${filter}`}}
-        // validationSchema={SignupSchema}
-        onChange={(values, actions) => {
-          findContactsByName({ filter: values.name });
-        }}>
-      <label htmlFor="filter">Find contacts by name</label>
-          <Field type="text" name="filter"/>
+    <Formik
+      initialValues={{
+        filter: '',
+      }}
+    >
+      <Form>
+        <label htmlFor="filter">Find contacts by name</label>
+        <Field
+          type="text"
+          name="filter"
+          onChange={findContactsByName}
+          value={filters}
+        />
+      </Form>
     </Formik>
-  )
-}
+  );
+};
 
-export default FilterContact
+export default FilterContact;

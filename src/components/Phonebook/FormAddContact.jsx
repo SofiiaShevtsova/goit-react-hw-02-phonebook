@@ -33,7 +33,7 @@ const FormAddContact = props => {
       number: `${number}`  }}
         validationSchema={SignupSchema}
         onSubmit={(values, actions) => {
-          addContactOnSubmit({ name: values.name, id: `${nanoid()}`, number: values.number });
+          addContactOnSubmit({ name: values.name.trim(), id: `${nanoid()}`, number: values.number.trim() });
           actions.setSubmitting(false);
           actions.resetForm();
         }}
