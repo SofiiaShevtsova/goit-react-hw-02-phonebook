@@ -15,25 +15,30 @@ const SignupSchema = Yup.object().shape(
   },
   {
     number: Yup.string()
-          .matches(
-       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-        "Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-    )
-          .required('Required'),
+      .matches(
+        /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
+        'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+      )
+      .required('Required'),
   }
 );
 
 const FormAddContact = props => {
-  const { name, number, addContactOnSubmit } = props;
+  const { addContactOnSubmit } = props;
   return (
     <div>
       <Formik
         initialValues={{
-          name: `${name}`,
-      number: `${number}`  }}
+          name: ``,
+          number: ``,
+        }}
         validationSchema={SignupSchema}
         onSubmit={(values, actions) => {
-          addContactOnSubmit({ name: values.name.trim(), id: `${nanoid()}`, number: values.number.trim() });
+          addContactOnSubmit({
+            name: values.name.trim(),
+            id: `${nanoid()}`,
+            number: values.number.trim(),
+          });
           actions.setSubmitting(false);
           actions.resetForm();
         }}
@@ -41,16 +46,10 @@ const FormAddContact = props => {
         {props => (
           <Form>
             <label htmlFor="name">Name</label>
-            <Field
-              type="text"
-              name="name"
-            />
+            <Field type="text" name="name" />
             {props.errors.name && <div id="feedback">{props.errors.name}</div>}
             <label htmlFor="number">Number</label>
-            <Field
-              type="tel"
-              name="number"
-            />
+            <Field type="tel" name="number" />
             {props.errors.tel && <div id="feedback">{props.errors.tel}</div>}
 
             <button type="submit">Add contact</button>

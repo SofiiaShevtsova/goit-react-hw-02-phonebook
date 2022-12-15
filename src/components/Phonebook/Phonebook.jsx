@@ -5,20 +5,19 @@ import Contacts from './Contacts';
 import FormAddContact from './FormAddContact';
 import FilterContact from './FilterContact';
 
+let contactsToFind = null;
+
 export class Phonebook extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    name: '',
-    number: '',
+    contacts: [],
     filter: '',
   };
 
   addContact = contact => {
+    if (this.state.contacts.find(elem => elem.name === contact.name)) {
+      alert('You have this contacts');
+      return;
+    }
     this.setState(prevState =>
       this.state.contacts.length > 0
         ? { contacts: [...prevState.contacts, contact] }
@@ -26,29 +25,32 @@ export class Phonebook extends Component {
     );
   };
 
-  findContactsByName = event => {
-    this.setState(prevState => ({ filter: event.target.value.trim() }));
-    if (!event.target.value.trim() === '') {
-      this.setState(prevState => ({ contacts: prevState }));
-
-      return;
-    }
-
-    const contactsToFind = this.state.contacts.filter(elem =>
-      elem.name.toLowerCase().includes(event.target.value.trim().toLowerCase())
+  removeContact = event => {
+    const nameForFind = event.target.attributes.id.nodeValue;
+    const indexContact = this.state.contacts.findIndex(
+      elem => elem.id === nameForFind
     );
-    this.setState({ contacts: contactsToFind });
+    const array = [...this.state.contacts];
+    array.splice(indexContact, 1);
+    this.setState({ contacts: array });
+  };
+
+  findContactsByName = event => {
+    this.setState({ filter: event.target.value.trim() });
+    const inputValue = event.target.value.trim().toLowerCase();
+
+    contactsToFind = this.state.contacts.filter(elem =>
+      elem.name.toLowerCase().includes(inputValue)
+    );
+    return;
   };
 
   render() {
-    console.log(this.state.filter);
     return (
       <>
         <Section title={'Phonebook'}>
           <FormAddContact
-            name={this.state.name}
             contacts={this.state.contacts}
-            number={this.state.number}
             addContactOnSubmit={this.addContact}
           />
         </Section>
@@ -57,7 +59,10 @@ export class Phonebook extends Component {
             findContactsByName={this.findContactsByName}
             filters={this.state.filter}
           />
-          <Contacts contacts={this.state.contacts} />
+          <Contacts
+            contacts={contactsToFind || this.state.contacts}
+            removeContacts={this.removeContact}
+          />
         </Section>
       </>
     );

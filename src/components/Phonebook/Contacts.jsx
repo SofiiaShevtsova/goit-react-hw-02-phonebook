@@ -1,11 +1,17 @@
 // import styled from '@emotion/styled';
 
 const Contacts = props => {
-  const { contacts } = props;
+  const { contacts, removeContacts } = props;
   return contacts.length > 0 ? (
     <ul className="a">
-      {contacts.map((elem) => (
-        <Contact name = {elem.name} number={elem.number} key={elem.id}/>
+      {contacts.map(elem => (
+        <Contact
+          name={elem.name}
+          number={elem.number}
+          id={elem.id}
+          key={elem.id}
+          removeContacts={removeContacts}
+        />
       ))}
     </ul>
   ) : (
@@ -14,8 +20,15 @@ const Contacts = props => {
 };
 
 const Contact = props => {
-  const {name, number} = props
-  return (<li className="stat__item">{name}: <span>{ number}</span></li>)
-}
+  const { name, number, removeContacts, id } = props;
+  return (
+    <li className="stat__item">
+      {name}: <span>{number}</span>
+      <button type="button" id={id} onClick={removeContacts}>
+        Delete
+      </button>
+    </li>
+  );
+};
 
 export default Contacts;
