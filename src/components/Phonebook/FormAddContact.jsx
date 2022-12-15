@@ -1,19 +1,62 @@
 // import styled from '@emotion/styled';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+
+import { nanoid } from 'nanoid';
+
+const SignupSchema = Yup.object().shape(
+  {
+    name: Yup.string()
+      .matches(
+        /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+        "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+      )
+      .required('Required'),
+  },
+  {
+    number: Yup.string()
+          .matches(
+       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
+        "Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+    )
+          .required('Required'),
+  }
+);
 
 const FormAddContact = props => {
+  const { name, number, addContactOnSubmit } = props;
   return (
     <div>
-      <form>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-        <button type="submit">Add contact</button>
-      </form>
+      <Formik
+        initialValues={{
+          name: `${name}`,
+      number: `${number}`  }}
+        validationSchema={SignupSchema}
+        onSubmit={(values, actions) => {
+          addContactOnSubmit({ name: values.name, id: `${nanoid()}`, number: values.number });
+          actions.setSubmitting(false);
+          actions.resetForm();
+        }}
+      >
+        {props => (
+          <Form>
+            <label htmlFor="name">Name</label>
+            <Field
+              type="text"
+              name="name"
+            />
+            {props.errors.name && <div id="feedback">{props.errors.name}</div>}
+            <label htmlFor="number">Number</label>
+            <Field
+              type="tel"
+              name="number"
+            />
+            {props.errors.tel && <div id="feedback">{props.errors.tel}</div>}
+
+            <button type="submit">Add contact</button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
