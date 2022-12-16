@@ -16,10 +16,10 @@ export class Phonebook extends Component {
       alert('You have this contacts');
       return;
     }
-    this.setState(prevState =>
-      this.state.contacts.length > 0
+    this.setState(prevState =>{return(this.state.contacts.length > 0
         ? { contacts: [...prevState.contacts, contact] }
-        : { contacts: [contact] }
+        : { contacts: [contact] })}
+      
     );
   };
 
@@ -39,7 +39,7 @@ export class Phonebook extends Component {
   render() {
     const contactToFind = this.state.contacts.filter(elem =>
       elem.name.toLowerCase().includes(this.state.value)
-    );
+    )
     return (
       <>
         <Section title={'Phonebook'}>
@@ -54,7 +54,7 @@ export class Phonebook extends Component {
             filters={this.state.filter}
           />
           <Contacts
-            contacts={contactToFind || this.state.contacts}
+            contacts={contactToFind.length>0? contactToFind: this.state.contacts}
             removeContacts={this.removeContact}
           />
         </Section>

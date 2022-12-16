@@ -1,8 +1,11 @@
 // import styled from '@emotion/styled';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import StyleList from './PhonebookStyles';
 
 import { nanoid } from 'nanoid';
+
+const {FormStyle, FieldStyles, BtnStyle, ErrorMessageStyle} = StyleList
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -35,6 +38,7 @@ const FormAddContact = props => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values, actions) => {
+          console.log(values);
           addContactOnSubmit({
             name: values.name.trim(),
             id: `${nanoid()}`,
@@ -45,18 +49,18 @@ const FormAddContact = props => {
         }}
       >
         {props => (
-          <Form>
+          <FormStyle>
             <label htmlFor="name">Name</label>
-            <Field type="text" name="name" />
-            {props.errors.name && <div id="feedback">{props.errors.name}</div>}
+            <FieldStyles type="text" name="name" />
+            {props.errors.name && <ErrorMessageStyle id="feedback">{props.errors.name}</ErrorMessageStyle>}
             <label htmlFor="number">Number</label>
-            <Field type="tel" name="number" />
+            <FieldStyles type="tel" name="number" />
             {props.errors.number && (
-              <div id="feedback">{props.errors.number}</div>
+              <ErrorMessageStyle id="feedback">{props.errors.number}</ErrorMessageStyle>
             )}
 
-            <button type="submit">Add contact</button>
-          </Form>
+            <BtnStyle type="submit">Add contact</BtnStyle>
+          </FormStyle>
         )}
       </Formik>
     </div>

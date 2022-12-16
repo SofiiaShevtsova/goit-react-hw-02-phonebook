@@ -1,9 +1,12 @@
-// import styled from '@emotion/styled';
+import StyleList from './PhonebookStyles';
+
+const {ListOfContactsStyle, BtnDeleteContact} = StyleList
 
 const Contacts = props => {
   const { contacts, removeContacts } = props;
+  console.log(contacts);
   return contacts.length > 0 ? (
-    <ul className="a">
+    <ListOfContactsStyle>
       {contacts.map(elem => (
         <Contact
           name={elem.name}
@@ -13,7 +16,7 @@ const Contacts = props => {
           removeContacts={removeContacts}
         />
       ))}
-    </ul>
+    </ListOfContactsStyle>
   ) : (
     <p className="x">"There is no contacts"</p>
   );
@@ -24,9 +27,9 @@ const Contact = props => {
   return (
     <li className="stat__item">
       {name}: <span>{number}</span>
-      <button type="button" id={id} onClick={removeContacts}>
+      <BtnDeleteContact type="button" id={id} onClick={removeContacts}>
         Delete
-      </button>
+      </BtnDeleteContact>
     </li>
   );
 };
