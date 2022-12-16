@@ -5,8 +5,6 @@ import Contacts from './Contacts';
 import FormAddContact from './FormAddContact';
 import FilterContact from './FilterContact';
 
-let contactsToFind = null;
-
 export class Phonebook extends Component {
   state = {
     contacts: [],
@@ -35,17 +33,13 @@ export class Phonebook extends Component {
     this.setState({ contacts: array });
   };
 
-  findContactsByName = event => {
-    this.setState({ filter: event.target.value.trim() });
-    const inputValue = event.target.value.trim().toLowerCase();
-
-    contactsToFind = this.state.contacts.filter(elem =>
-      elem.name.toLowerCase().includes(inputValue)
-    );
-    return;
-  };
+  findContactsByName = event =>
+    this.setState({ filter: event.target.value.trim().toLowerCase() });
 
   render() {
+    const contactToFind = this.state.contacts.filter(elem =>
+      elem.name.toLowerCase().includes(this.state.value)
+    );
     return (
       <>
         <Section title={'Phonebook'}>
@@ -60,7 +54,7 @@ export class Phonebook extends Component {
             filters={this.state.filter}
           />
           <Contacts
-            contacts={contactsToFind || this.state.contacts}
+            contacts={contactToFind || this.state.contacts}
             removeContacts={this.removeContact}
           />
         </Section>

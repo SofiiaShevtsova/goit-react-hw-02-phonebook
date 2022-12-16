@@ -1,4 +1,4 @@
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field } from 'formik';
 
 const FilterContact = props => {
   const { findContactsByName, filters } = props;
@@ -8,7 +8,7 @@ const FilterContact = props => {
         filter: '',
       }}
     >
-      <Form>
+      <>
         <label htmlFor="filter">Find contacts by name</label>
         <Field
           type="text"
@@ -16,7 +16,7 @@ const FilterContact = props => {
           onChange={findContactsByName}
           value={filters}
         />
-      </Form>
+      </>
     </Formik>
   );
 };

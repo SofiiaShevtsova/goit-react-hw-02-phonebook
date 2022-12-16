@@ -4,24 +4,25 @@ import * as Yup from 'yup';
 
 import { nanoid } from 'nanoid';
 
-const SignupSchema = Yup.object().shape(
-  {
-    name: Yup.string()
-      .matches(
-        /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-        "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-      )
-      .required('Required'),
-  },
-  {
-    number: Yup.string()
-      .matches(
-        /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-        'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-      )
-      .required('Required'),
-  }
-);
+const SignupSchema = Yup.object().shape({
+  name: Yup.string()
+    .matches(
+      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    )
+    .required('Required'),
+
+  number: Yup.mixed().test({
+    name: 'number',
+    message:
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +',
+    test: value => {
+      return /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/.test(
+        value
+      );
+    },
+  }),
+});
 
 const FormAddContact = props => {
   const { addContactOnSubmit } = props;
@@ -50,7 +51,9 @@ const FormAddContact = props => {
             {props.errors.name && <div id="feedback">{props.errors.name}</div>}
             <label htmlFor="number">Number</label>
             <Field type="tel" name="number" />
-            {props.errors.tel && <div id="feedback">{props.errors.tel}</div>}
+            {props.errors.number && (
+              <div id="feedback">{props.errors.number}</div>
+            )}
 
             <button type="submit">Add contact</button>
           </Form>
