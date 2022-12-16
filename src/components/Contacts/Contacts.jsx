@@ -1,10 +1,9 @@
-import StyleList from './PhonebookStyles';
+import StyleList from '../ComponentStyles/PhonebookStyles';
 
-const {ListOfContactsStyle, BtnDeleteContact} = StyleList
+const { ListOfContactsStyle, BtnDeleteContact, IsEmptyList } = StyleList;
 
 const Contacts = props => {
   const { contacts, removeContacts } = props;
-  console.log(contacts);
   return contacts.length > 0 ? (
     <ListOfContactsStyle>
       {contacts.map(elem => (
@@ -18,14 +17,16 @@ const Contacts = props => {
       ))}
     </ListOfContactsStyle>
   ) : (
-    <p className="x">"There is no contacts"</p>
+    <>
+      <IsEmptyList>"There is no contacts"</IsEmptyList>
+    </>
   );
 };
 
 const Contact = props => {
   const { name, number, removeContacts, id } = props;
   return (
-    <li className="stat__item">
+    <li>
       {name}: <span>{number}</span>
       <BtnDeleteContact type="button" id={id} onClick={removeContacts}>
         Delete

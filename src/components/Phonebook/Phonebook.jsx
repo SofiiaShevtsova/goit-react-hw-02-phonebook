@@ -1,9 +1,10 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Section from './Section';
-import Contacts from './Contacts';
-import FormAddContact from './FormAddContact';
-import FilterContact from './FilterContact';
+import Section from '../Section/Section';
+import Contacts from '../Contacts/Contacts';
+import FormAddContact from '../FormAddContact/FormAddContact';
+import FilterContact from '../FilterContact/FilterContact';
 
 export class Phonebook extends Component {
   state = {
@@ -16,21 +17,21 @@ export class Phonebook extends Component {
       alert('You have this contacts');
       return;
     }
-    this.setState(prevState =>{return(this.state.contacts.length > 0
+    this.setState(prevState => {
+      return this.state.contacts.length > 0
         ? { contacts: [...prevState.contacts, contact] }
-        : { contacts: [contact] })}
-      
-    );
+        : { contacts: [contact] };
+    });
   };
 
   removeContact = event => {
-    const nameForFind = event.target.attributes.id.nodeValue;
+    const idContactToRemove = event.target.attributes.id.nodeValue;
     const indexContact = this.state.contacts.findIndex(
-      elem => elem.id === nameForFind
+      elem => elem.id === idContactToRemove
     );
-    const array = [...this.state.contacts];
-    array.splice(indexContact, 1);
-    this.setState({ contacts: array });
+    const arrayContacts = [...this.state.contacts];
+    arrayContacts.splice(indexContact, 1);
+    this.setState({ contacts: arrayContacts });
   };
 
   findContactsByName = event =>
@@ -38,15 +39,12 @@ export class Phonebook extends Component {
 
   render() {
     const contactToFind = this.state.contacts.filter(elem =>
-      elem.name.toLowerCase().includes(this.state.value)
-    )
+      elem.name.toLowerCase().includes(this.state.filter)
+    );
     return (
       <>
         <Section title={'Phonebook'}>
-          <FormAddContact
-            contacts={this.state.contacts}
-            addContactOnSubmit={this.addContact}
-          />
+          <FormAddContact addContactOnSubmit={this.addContact} />
         </Section>
         <Section title={'Contacts'}>
           <FilterContact
@@ -54,7 +52,9 @@ export class Phonebook extends Component {
             filters={this.state.filter}
           />
           <Contacts
-            contacts={contactToFind.length>0? contactToFind: this.state.contacts}
+            contacts={
+              this.state.filter !== '' ? contactToFind : this.state.contacts
+            }
             removeContacts={this.removeContact}
           />
         </Section>
@@ -62,3 +62,29 @@ export class Phonebook extends Component {
     );
   }
 }
+
+Section.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
+FormAddContact.propTypes = {
+  addContactOnSubmit: PropTypes.func.isRequired,
+};
+
+FilterContact.propTypes = {
+  findContactsByName: PropTypes.func.isRequired,
+  filters: PropTypes.string,
+};
+Contacts.propTypes = {
+  contacts: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      }),
+      PropTypes.array
+    ),
+  ]),
+  removeContacts: PropTypes.func.isRequired,
+};

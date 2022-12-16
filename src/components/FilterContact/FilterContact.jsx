@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
-import StyleList from './PhonebookStyles';
+import StyleList from '../ComponentStyles/PhonebookStyles';
 
-const {FormStyle, FieldStyles} = StyleList
+const { FormStyle, FieldStyles } = StyleList;
 
 const FilterContact = props => {
   const { findContactsByName, filters } = props;
@@ -11,10 +11,10 @@ const FilterContact = props => {
         filter: '',
       }}
       onSubmit={(values, actions) => {
-           actions.setSubmitting(false);
-         }}
+        actions.setSubmitting(false);
+      }}
     >
-      < FormStyle>
+      <FormStyle>
         <label htmlFor="filter">Find contacts by name</label>
         <FieldStyles
           type="text"
@@ -22,7 +22,7 @@ const FilterContact = props => {
           onChange={findContactsByName}
           value={filters}
         />
-      </ FormStyle>
+      </FormStyle>
     </Formik>
   );
 };

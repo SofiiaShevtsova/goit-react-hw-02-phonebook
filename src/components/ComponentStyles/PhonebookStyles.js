@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import { Form, Field } from 'formik';
 import photo from 'image/contact.jpg';
 
-console.log(photo);
-
 const StyleList = {
   SectionContainer: styled.div`
     width: 600px;
@@ -36,13 +34,18 @@ const StyleList = {
   `,
 
   BtnStyle: styled.button`
-    width: 50%;
+    width: 30%;
     font-size: 20px;
     border-radius: 5px;
     border: 2px solid brown;
-    background-color: brown;
-    color: bisque;
+    background-color: rgb(240, 103, 69);
+    color: brown;
     padding: 10px;
+    &:hover {
+      background-color: brown;
+      color: bisque;
+      font-weight: 600;
+    }
   `,
 
   ErrorMessageStyle: styled.div`
@@ -55,6 +58,8 @@ const StyleList = {
     list-style: url('${photo}');
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     gap: 10px;
     margin-top: 30px;
     padding-left: 50px;
@@ -66,13 +71,27 @@ const StyleList = {
 
   BtnDeleteContact: styled.button`
     display: inline-block;
-    margin-right: 10px;
+    margin-left: 20px;
     font-size: 16px;
     border-radius: 5px;
     border: 2px solid brown;
-    background-color: brown;
-    color: bisque;
+    background-color: rgb(240, 103, 69);
+    color: brown;
     padding: 5px;
+    position: relative;
+    top: -5px;
+    &:hover {
+      background-color: brown;
+      color: bisque;
+      font-weight: 600;
+    }
+  `,
+
+  IsEmptyList: styled.p`
+    display: block;
+    color: red;
+    font-size: 16px;
+    margin-top: 30px;
   `,
 };
 

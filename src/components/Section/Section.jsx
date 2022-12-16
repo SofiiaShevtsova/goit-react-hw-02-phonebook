@@ -1,4 +1,4 @@
-import StyleList from './PhonebookStyles';
+import StyleList from '../ComponentStyles/PhonebookStyles';
 const { SectionContainer, SectionTitle } = StyleList;
 
 const Section = props => {
