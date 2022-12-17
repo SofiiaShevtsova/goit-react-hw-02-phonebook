@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StyleList from '../ComponentStyles/PhonebookStyles';
@@ -69,6 +71,10 @@ const FormAddContact = props => {
       </Formik>
     </div>
   );
+};
+
+FormAddContact.propTypes = {
+  addContactOnSubmit: PropTypes.func.isRequired,
 };
 
 export default FormAddContact;

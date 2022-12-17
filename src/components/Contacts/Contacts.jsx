@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import StyleList from '../ComponentStyles/PhonebookStyles';
 
 const { ListOfContactsStyle, BtnDeleteContact, IsEmptyList } = StyleList;
@@ -34,5 +36,33 @@ const Contact = props => {
     </li>
   );
 };
+
+Contacts.propTypes = {
+  contacts: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      }),
+      PropTypes.array
+    ),
+  ]),
+  removeContacts: PropTypes.func.isRequired,
+};
+
+// Contact.propTypes = {
+//   contacts: PropTypes.oneOfType([
+//     PropTypes.arrayOf(
+//       PropTypes.shape({
+//         name: PropTypes.string.isRequired,
+//         number: PropTypes.string.isRequired,
+//         id: PropTypes.string.isRequired,
+//       }),
+//       PropTypes.array
+//     ),
+//   ]),
+//   removeContacts: PropTypes.func.isRequired,
+// };
 
 export default Contacts;

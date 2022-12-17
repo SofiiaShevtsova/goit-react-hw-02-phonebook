@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Formik } from 'formik';
 import StyleList from '../ComponentStyles/PhonebookStyles';
 
@@ -25,6 +27,11 @@ const FilterContact = props => {
       </FormStyle>
     </Formik>
   );
+};
+
+FilterContact.propTypes = {
+  findContactsByName: PropTypes.func.isRequired,
+  filters: PropTypes.string,
 };
 
 export default FilterContact;
