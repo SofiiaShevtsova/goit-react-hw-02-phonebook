@@ -25,18 +25,6 @@ const Contacts = props => {
   );
 };
 
-const Contact = props => {
-  const { name, number, removeContacts, id } = props;
-  return (
-    <li>
-      {name}: <span>{number}</span>
-      <BtnDeleteContact type="button" id={id} onClick={removeContacts}>
-        Delete
-      </BtnDeleteContact>
-    </li>
-  );
-};
-
 Contacts.propTypes = {
   contacts: PropTypes.oneOfType([
     PropTypes.arrayOf(
@@ -51,18 +39,30 @@ Contacts.propTypes = {
   removeContacts: PropTypes.func.isRequired,
 };
 
-// Contact.propTypes = {
-//   contacts: PropTypes.oneOfType([
-//     PropTypes.arrayOf(
-//       PropTypes.shape({
-//         name: PropTypes.string.isRequired,
-//         number: PropTypes.string.isRequired,
-//         id: PropTypes.string.isRequired,
-//       }),
-//       PropTypes.array
-//     ),
-//   ]),
-//   removeContacts: PropTypes.func.isRequired,
-// };
+const Contact = props => {
+  const { name, number, removeContacts, id } = props;
+  return (
+    <li>
+      {name}: <span>{number}</span>
+      <BtnDeleteContact type="button" id={id} onClick={removeContacts}>
+        Delete
+      </BtnDeleteContact>
+    </li>
+  );
+};
+
+Contact.propTypes = {
+  contacts: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+      }),
+      PropTypes.array
+    ),
+  ]),
+  removeContacts: PropTypes.func.isRequired,
+};
 
 export default Contacts;
